@@ -11,6 +11,8 @@ import { connect } from 'react-redux'
 import ToolBar from './ToolBar'
 import CallingLoader from './CallingLoader'
 
+import InCallManager from 'react-native-incall-manager';
+
 
 const [ screenH, screenW ] = [
   Dimensions.get('window').height,
@@ -18,6 +20,12 @@ const [ screenH, screenW ] = [
 ]
 export class VideoScreen extends React.Component {
   render() {
+    
+    this.props.videoStreamsDataSource.map((item, i, arr) => {
+      console.log("Item", item)
+      InCallManager.setSpeakerphoneOn(true);
+    });
+
     return (
 			<View style={{ flex: 1, backgroundColor: 'black' }}>
         <StatusBar backgroundColor="black" barStyle="light-content" animated/>
@@ -25,7 +33,7 @@ export class VideoScreen extends React.Component {
           {
             this.props.videoStreamsDataSource.map((item, i, arr) => (
               <View style={styles.videoViewWrapper} key={i}>
-                <RTCView style={styles.videoView(arr.length)} key={item.userId} streamURL={item.stream.toURL()}/>
+                <RTCView style={styles.videoView(arr.length)} key={item.userId}  streamURL={item.stream.toURL()} />
               </View>
             ))
           }
